@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Будь моей валентинкой ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #ffd0dd;  /* Более яркий розовый */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Сцена 1 - Предложение */
+        .scene1 {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #ff4d6d;
+            margin-bottom: 20px;
+        }
+        
+        .heart {
+            font-size: 5em;
+            margin-bottom: 30px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .question {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-yes {
+            background: #ff4d6d;
+            color: white;
+        }
+        
+        .btn-yes:hover {
+            background: #ff3355;
+            transform: scale(1.1);
+        }
+        
+        .btn-no {
+            background: #cccccc;
+            color: #666;
+            position: relative;
+        }
+        
+        .btn-no:hover {
+            background: #bbbbbb;
+        }
+        
+        /* Сцена 2 - Фотогалерея */
+        .scene2 {
+            display: none;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        .photo-frame {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+        
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 5px;
+        }
+        
+        .photo-caption {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.3em;
+            color: #ff4d6d;
+            font-style: italic;
+            min-height: 70px;
+            padding: 10px;
+            background: #fff0f3;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(255, 77, 109, 0.1);
+        }
+        
+        .counter {
+            text-align: center;
+            margin: 15px 0;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .next-btn {
+            padding: 12px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            background: #ffb6c1;
+            color: #4a4a4a;
+            cursor: pointer;
+            transition: background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .next-btn:hover:not(:disabled) {
+            background: #ff9eb5;
+        }
+        
+        .next-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        /* Кнопка признания */
+        .love-btn {
+            padding: 15px 50px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            background: #ff4d6d;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(255, 77, 109, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        .love-btn:hover {
+            background: #ff3355;
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 77, 109, 0.6);
+        }
+        
+        .love-btn:disabled {
+            background: #ffb6c1;
+            cursor: default;
+            animation: none;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        /* Контейнер для сердечек */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .heart-particle {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 24px;
+            user-select: none;
+            animation: float 2s ease-out forwards;  /* Анимация длиннее */
+            text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) rotate(1080deg) scale(0);  /* Больше вращений */
+                opacity: 0;
+            }
+        }
+        
+        .tiny-heart {
+            position: absolute;
+            color: #ffb6c1;
+            font-size: 12px;
+            pointer-events: none;
+            animation: tinyFloat 1s ease-out forwards;
+        }
+        
+        @keyframes tinyFloat {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) rotate(180deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Сцена 1: Предложение -->
+    <div class="scene1" id="scene1">
+        <div class="heart">❤️</div>
+        <h1>Солнышко моё</h1>
+        <div class="question">Ты станешь моей валентинкой?</div>
+        <div class="buttons">
+            <button class="btn btn-yes" id="yesBtn" onclick="sayYes()">ДА!</button>
+            <button class="btn btn-no" id="noBtn" onclick="sayNo()">Нет</button>
+        </div>
+    </div>
+    
+    <!-- Сцена 2: Фотогалерея -->
+    <div class="scene2" id="scene2">
+        <div class="photo-frame">
+            <img id="currentPhoto" src="images/1.jpg" alt="Фото">
+            
+            <!-- Подпись к фото -->
+            <div class="photo-caption" id="photoCaption"></div>
+            
+            <div class="counter">
+                Фото <span id="currentNumber">1</span> из <span id="totalNumber">13</span>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="next-btn" id="nextBtn" onclick="nextPhotoWithHearts()">Следующее фото →</button>
+                <button class="love-btn" id="loveBtn" onclick="sayLove()" style="display: none;">Я тоже тебя люблю ❤️</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Контейнеры для анимаций -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <script>
+        // Всего фотографий
+        const totalPhotos = 13;
+        let currentPhoto = 1;
+        
+        // Элементы сцен
+        const scene1 = document.getElementById('scene1');
+        const scene2 = document.getElementById('scene2');
+        
+        // Элементы фотогалереи
+        const photoElement = document.getElementById('currentPhoto');
+        const currentNumberElement = document.getElementById('currentNumber');
+        const totalNumberElement = document.getElementById('totalNumber');
+        const nextBtn = document.getElementById('nextBtn');
+        const loveBtn = document.getElementById('loveBtn');
+        const photoCaption = document.getElementById('photoCaption');
+        const particlesContainer = document.getElementById('particlesContainer');
+        
+        // Кнопки предложения
+        const noBtn = document.getElementById('noBtn');
+        
+        totalNumberElement.textContent = totalPhotos;
+        
+        // Массив с подписями для каждого фото
+        const captions = {
+            1: "💝 Давай вспомним, как все начиналось...",
+            2: "😊 Я буду рядом, чтобы твои руки не мёрзли...",
+            3: "💕 Я люблю тебя такую...",
+            4: "✨ И такую....",
+            5: "🌅 И даже такую...",
+            6: "🎂 Такую особенно сильно...",
+            7: "☕ Наши уютные вечера",
+            8: "🌸 Ты самая красивая",
+            9: "🏖️ Твоя улыбка сводит меня с ума",
+            10: "🎬 Эта немного пугает, но ее я тоже люблю",
+            11: "😄 Ты - моя икона!",
+            12: "💫 Вместе не страшно даже проиграть",
+            13: "💖 И это только начало... Я люблю тебя!"
+        };
+        
+        // Функция для обновления фото и подписи
+        function updatePhoto() {
+            photoElement.src = `images/${currentPhoto}.jpg`;
+            currentNumberElement.textContent = currentPhoto;
+            
+            // Показываем нужную кнопку
+            if (currentPhoto === totalPhotos) {
+                nextBtn.style.display = 'none';
+                loveBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                loveBtn.style.display = 'none';
+            }
+            
+            // Показываем подпись для текущего фото
+            photoCaption.textContent = captions[currentPhoto] || "💗 Моя любимая";
+        }
+        
+        // Функция для создания взрыва сердечек
+        function createHeartExplosion(count = 20, fromButton = true) {
+            let centerX, centerY;
+            
+            if (fromButton) {
+                const buttonRect = nextBtn.getBoundingClientRect();
+                centerX = buttonRect.left + buttonRect.width / 2;
+                centerY = buttonRect.top + buttonRect.height / 2;
+            } else {
+                centerX = window.innerWidth / 2;
+                centerY = window.innerHeight / 2;
+            }
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-particle';
+                    
+                    // Разные символы сердечек
+                    const hearts = ['❤️', '💖', '💗', '💓', '💕', '💞'];
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    
+                    const angle = (Math.random() * Math.PI * 2);
+                    const distance = 150 + Math.random() * 250;  // Больше расстояние
+                    const x = Math.cos(angle) * distance * (Math.random() * 1.5);
+                    const y = Math.sin(angle) * distance * (Math.random() * 1.5) - 100;  // Выше взлетают
+                    
+                    heart.style.left = (centerX - 15) + 'px';
+                    heart.style.top = (centerY - 15) + 'px';
+                    heart.style.setProperty('--x', x + 'px');
+                    heart.style.setProperty('--y', y + 'px');
+                    heart.style.fontSize = (20 + Math.random() * 30) + 'px';  // Крупнее
+                    
+                    particlesContainer.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 2000);
+                }, i * 20);  // Чаще
+            }
+        }
+        
+        // Функция для следующего фото с сердечками
+        function nextPhotoWithHearts() {
+            if (currentPhoto < totalPhotos) {
+                createHeartExplosion(25);  // Больше сердечек
+                currentPhoto++;
+                updatePhoto();
+            }
+        }
+        
+        // Функция для создания маленьких сердечек
+        function createTinyHearts(x, y, count = 8) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'tiny-heart';
+                    heart.innerHTML = '❤️';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 40 + Math.random() * 70;  // Больше разлет
+                    const xMove = Math.cos(angle) * distance;
+                    const yMove = Math.sin(angle) * distance;
+                    
+                    heart.style.left = (x - 6) + 'px';
+                    heart.style.top = (y - 6) + 'px';
+                    heart.style.setProperty('--x', xMove + 'px');
+                    heart.style.setProperty('--y', yMove + 'px');
+                    
+                    particlesContainer.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 1000);
+                }, i * 30);
+            }
+        }
+        
+        // Функция для кнопки "ДА"
+        function sayYes() {
+            // ОГРОМНЫЙ взрыв сердечек!
+            for (let i = 0; i < 60; i++) {  // Очень много
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-particle';
+                    
+                    const hearts = ['❤️', '💖', '💗', '💓', '💕', '💞', '💝', '💘'];
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    
+                    heart.style.left = Math.random() * window.innerWidth + 'px';
+                    heart.style.top = Math.random() * window.innerHeight + 'px';
+                    heart.style.setProperty('--x', (Math.random() - 0.5) * 600 + 'px');
+                    heart.style.setProperty('--y', -400 - Math.random() * 300 + 'px');
+                    heart.style.fontSize = (30 + Math.random() * 50) + 'px';
+                    
+                    particlesContainer.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 2000);
+                }, i * 15);  // Очень быстро
+            }
+            
+            // Переключаемся на галерею
+            setTimeout(() => {
+                scene1.style.display = 'none';
+                scene2.style.display = 'block';
+                updatePhoto();
+            }, 500);
+        }
+        
+        // Функция для кнопки "Нет" (убегает)
+        function sayNo() {
+            // Получаем позицию кнопки
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Создаем маленькие сердечки на месте кнопки
+            createTinyHearts(btnRect.left + btnRect.width/2, btnRect.top + btnRect.height/2, 12);  // Больше сердечек
+            
+            // Случайные координаты в пределах видимой области
+            const maxX = window.innerWidth - btnRect.width - 20;
+            const maxY = window.innerHeight - btnRect.height - 20;
+            
+            const newX = Math.min(Math.max(20, Math.random() * maxX), maxX);
+            const newY = Math.min(Math.max(20, Math.random() * maxY), maxY);
+            
+            // Перемещаем кнопку
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+            
+            // Меняем текст кнопки
+            const noTexts = [
+                'Нет', 
+                'Точно нет?', 
+                'Подумай еще', 
+                'Не надо так', 
+                'Ой...',
+                'Может да?',
+                '❤️',
+                '💔',
+                'Ну пожалуйста...',
+                'Ты уверена?'
+            ];
+            noBtn.textContent = noTexts[Math.floor(Math.random() * noTexts.length)];
+        }
+        
+        // Функция для кнопки "Я тоже тебя люблю"
+        function sayLove() {
+            // МЕГА-ВЗРЫВ сердечек!
+            for (let i = 0; i < 100; i++) {  // 100 сердечек!
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-particle';
+                    
+                    const hearts = ['❤️', '💖', '💗', '💓', '💕', '💞', '💝', '💘', '💟', '❣️'];
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    
+                    heart.style.left = Math.random() * window.innerWidth + 'px';
+                    heart.style.top = Math.random() * window.innerHeight + 'px';
+                    heart.style.setProperty('--x', (Math.random() - 0.5) * 800 + 'px');
+                    heart.style.setProperty('--y', -500 - Math.random() * 400 + 'px');
+                    heart.style.fontSize = (30 + Math.random() * 60) + 'px';
+                    
+                    particlesContainer.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 2500);
+                }, i * 10);  // Максимально быстро
+            }
+            
+            // Меняем текст на кнопке
+            loveBtn.textContent = '❤️ Я ТОЖЕ ТЕБЯ ЛЮБЛЮ ❤️';
+            loveBtn.disabled = true;
+            
+            // Добавляем красивую подпись
+            photoCaption.textContent = "💞 Спасибо, что ты есть! Ты самая лучшая! 💞";
+        }
+        
+        // Инициализация
+        updatePhoto();
+    </script>
+</body>
+</html>
